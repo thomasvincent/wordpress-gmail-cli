@@ -115,7 +115,7 @@ jobs:
           fetch-depth: 0
 
       - name: Run TruffleHog OSS Scan
-        uses: trufflesecurity/trufflehog@v3.28.0 # Version pinned
+        uses: trufflesecurity/trufflehog@v3.88.23 # Version pinned
         with:
           path: ./ # Scan the entire repo
           # Compare current HEAD against the default branch (e.g., main)
