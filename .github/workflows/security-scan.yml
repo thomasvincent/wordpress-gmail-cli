@@ -53,7 +53,7 @@ jobs:
           tags: wordpress-gmail-cli:scan # Use a distinct tag for clarity
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0 # PINNED VERSION
+        uses: aquasecurity/trivy-action@0.30.0 # PINNED VERSION
         with:
           image-ref: 'wordpress-gmail-cli:scan'
           # Output as SARIF for upload
