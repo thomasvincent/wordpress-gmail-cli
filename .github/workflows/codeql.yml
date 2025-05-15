@@ -36,7 +36,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2' # Should match version in codeql-config.yml
+          php-version: '8.4' # Should match version in codeql-config.yml
           coverage: none
           tools: none
 
