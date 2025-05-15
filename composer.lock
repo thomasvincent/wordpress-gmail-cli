@@ -4,7 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "0dcadb710d9d25224392c5b5ea23fed1",
+||||||| 9a79bee
+    "content-hash": "562f000d343ed5946550857eae6d5716",
+=======
+    "content-hash": "7e4129b6a29291407db76123ba87dd01",
+>>>>>>> origin/main
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -1500,15 +1506,32 @@
             "time": "2022-02-21T01:04:05+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "phpcsstandards/phpcsextra",
             "version": "1.3.0",
+||||||| 9a79bee
+            "name": "phpstan/phpstan",
+            "version": "1.12.24",
+=======
+            "name": "phpstan/phpstan",
+            "version": "1.12.26",
+>>>>>>> origin/main
             "source": {
                 "type": "git",
+<<<<<<< HEAD
                 "url": "https://github.com/PHPCSStandards/PHPCSExtra.git",
                 "reference": "46d08eb86eec622b96c466adec3063adfed280dd"
+||||||| 9a79bee
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "338b92068f58d9f8035b76aed6cf2b9e5624c025"
+=======
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "84cbf8f018e01834b9b1ac3dacf3b9780e209e53"
+>>>>>>> origin/main
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/46d08eb86eec622b96c466adec3063adfed280dd",
                 "reference": "46d08eb86eec622b96c466adec3063adfed280dd",
                 "shasum": ""
@@ -1681,6 +1704,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpstan/phpstan/zipball/84cbf8f018e01834b9b1ac3dacf3b9780e209e53",
                 "reference": "84cbf8f018e01834b9b1ac3dacf3b9780e209e53",
+||||||| 9a79bee
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/338b92068f58d9f8035b76aed6cf2b9e5624c025",
+                "reference": "338b92068f58d9f8035b76aed6cf2b9e5624c025",
+=======
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/84cbf8f018e01834b9b1ac3dacf3b9780e209e53",
+                "reference": "84cbf8f018e01834b9b1ac3dacf3b9780e209e53",
+>>>>>>> origin/main
                 "shasum": ""
             },
             "require": {
@@ -2050,16 +2080,36 @@
         },
         {
             "name": "phpunit/phpunit",
+<<<<<<< HEAD
             "version": "10.5.46",
+||||||| 9a79bee
+            "version": "9.6.22",
+=======
+            "version": "9.6.23",
+>>>>>>> origin/main
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
+<<<<<<< HEAD
                 "reference": "8080be387a5be380dda48c6f41cee4a13aadab3d"
+||||||| 9a79bee
+                "reference": "f80235cb4d3caa59ae09be3adf1ded27521d1a9c"
+=======
+                "reference": "43d2cb18d0675c38bd44982a5d1d88f6d53d8d95"
+>>>>>>> origin/main
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8080be387a5be380dda48c6f41cee4a13aadab3d",
                 "reference": "8080be387a5be380dda48c6f41cee4a13aadab3d",
+||||||| 9a79bee
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f80235cb4d3caa59ae09be3adf1ded27521d1a9c",
+                "reference": "f80235cb4d3caa59ae09be3adf1ded27521d1a9c",
+=======
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/43d2cb18d0675c38bd44982a5d1d88f6d53d8d95",
+                "reference": "43d2cb18d0675c38bd44982a5d1d88f6d53d8d95",
+>>>>>>> origin/main
                 "shasum": ""
             },
             "require": {
@@ -2131,7 +2181,13 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.46"
+||||||| 9a79bee
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.22"
+=======
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.23"
+>>>>>>> origin/main
             },
             "funding": [
                 {
@@ -2155,7 +2211,13 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2025-05-02T06:46:24+00:00"
+||||||| 9a79bee
+            "time": "2024-12-05T13:48:26+00:00"
+=======
+            "time": "2025-05-02T06:40:34+00:00"
+>>>>>>> origin/main
         },
         {
             "name": "sebastian/cli-parser",
@@ -3343,7 +3405,13 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+<<<<<<< HEAD
         "php": "^8.1 <8.5.0"
+||||||| 9a79bee
+        "php": ">=7.4"
+=======
+        "php": ">=8.1 <8.5"
+>>>>>>> origin/main
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
