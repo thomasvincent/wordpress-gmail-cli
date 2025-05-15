@@ -62,7 +62,7 @@ add_action('plugins_loaded', function() {
         }
 
         // Initialize plugin.
-        \WP_Social_Auth\WP_Social_Auth_PlugingetInstance();
+        \WP_Social_Auth\WP_Social_Auth_Plugin::getInstance();
         
     } catch (\Exception $e) {
         // Log error and display admin notice.
@@ -91,5 +91,6 @@ add_action('plugins_loaded', function() {
  * @return \WP_Social_Auth\Plugin Plugin instance.
  */
 function wp_social_auth(): \WP_Social_Auth\Plugin {
-    return \WP_Social_Auth\WP_Social_Auth_PlugingetInstance();
+    return \WP_Social_Auth\WP_Social_Auth_Plugin::getInstance();
 }
+

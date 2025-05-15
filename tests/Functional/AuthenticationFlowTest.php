@@ -33,50 +33,50 @@ class AuthenticationFlowTest extends TestCase
         WP_Mock::userFunction('get_option')
             ->with('wp_social_auth_settings', WP_Mock\Functions::type('array'))
             ->andReturn($config);
-        
+
         // Mock nonce verification
         WP_Mock::userFunction('wp_create_nonce')->andReturn('test-nonce');
         WP_Mock::userFunction('wp_verify_nonce')->andReturn(true);
-        
+
         // Mock HTTP request data
         $_GET['action'] = 'social_auth';
         $_GET['provider'] = 'google';
         $_GET['_wpnonce'] = 'test-nonce';
-        
+
         // Initialize the plugin
         $this->plugin->register();
-        
+
         // Get authentication manager using reflection
         $reflectionClass = new \ReflectionClass(get_class($this->plugin));
         $authManagerProperty = $reflectionClass->getProperty('authenticationManager');
         $authManagerProperty->setAccessible(true);
         $authManager = $authManagerProperty->getValue($this->plugin);
-        
+
         // Test that authentication manager was created
         $this->assertInstanceOf(AuthenticationManager::class, $authManager);
-        
+
         // Get provider factory
         $providerFactoryProperty = $reflectionClass->getProperty('providerFactory');
         $providerFactoryProperty->setAccessible(true);
         $providerFactory = $providerFactoryProperty->getValue($this->plugin);
-        
+
         // Test that provider factory was created
         $this->assertInstanceOf(ProviderFactory::class, $providerFactory);
-        
+
         // Test that Google provider can be created
         WP_Mock::userFunction('site_url')->andReturn('https://example.com');
         $googleProvider = $providerFactory->createProvider('google');
         $this->assertInstanceOf(GoogleProvider::class, $googleProvider);
-        
+
         // Test the authorization URL generation
         $authUrl = $googleProvider->getAuthorizationUrl();
         $this->assertStringContainsString('accounts.google.com', $authUrl);
         $this->assertStringContainsString('client_id=test-client-id', $authUrl);
-        
+
         // Simulate the OAuth callback
         $_GET['code'] = 'test-auth-code';
         $_GET['state'] = 'test-state';
-        
+
         // Mock token exchange
         WP_Mock::userFunction('wp_remote_post')->andReturn([
             'body' => json_encode([
@@ -89,7 +89,7 @@ class AuthenticationFlowTest extends TestCase
                 'code' => 200,
             ],
         ]);
-        
+
         // Mock resource owner details request
         WP_Mock::userFunction('wp_remote_get')->andReturn([
             'body' => json_encode([
@@ -102,7 +102,7 @@ class AuthenticationFlowTest extends TestCase
                 'code' => 200,
             ],
         ]);
-        
+
         // Mock WordPress user functions
         WP_Mock::userFunction('email_exists')->with('test@example.com')->andReturn(false);
         WP_Mock::userFunction('username_exists')->andReturn(false);
@@ -114,10 +114,10 @@ class AuthenticationFlowTest extends TestCase
             'user_login' => 'test_user',
         ]);
         WP_Mock::userFunction('wp_safe_redirect')->andReturn(true);
-        
+
         // Execute authentication (this would typically be called by WordPress)
         $authManager->handleAuthentication('google');
-        
+
         // Verify all expectations were met
         $this->assertConditionsMet();
     }

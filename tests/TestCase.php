@@ -7,7 +7,7 @@ use WP_Mock;
 
 /**
  * Base test case for all our tests.
- * 
+ *
  * Handles setting up and tearing down WP_Mock.
  */
 abstract class TestCase extends PHPUnitTestCase

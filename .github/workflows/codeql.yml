@@ -49,7 +49,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4'
           coverage: none
           tools: none
           extensions: mbstring, xml, zip, intl, json, curl
@@ -67,7 +67,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           if [ -f composer.json ]; then
-            composer install --no-progress --ignore-platform-reqs
+            composer update --no-progress --ignore-platform-reqs
           fi
 
       # Autobuild attempts to build any compiled languages

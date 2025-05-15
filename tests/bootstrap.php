@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHPUnit bootstrap file
  *
@@ -37,4 +38,3 @@ if (!defined('WPINC')) {
 require_once __DIR__ . '/wp-mock-functions.php';
 
 // Add custom bootstrap code here
-
