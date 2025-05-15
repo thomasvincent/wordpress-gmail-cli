@@ -45,14 +45,25 @@ jobs:
 
       - name: Build Docker image for scanning
         # No need to push, just load locally for Trivy
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: false
           load: true
           tags: wordpress-gmail-cli:scan # Use a distinct tag for clarity
 
+      # Check if Dockerfile exists
+      - name: Check if Dockerfile exists
+        id: check_dockerfile
+        run: |
+          if [ -f "Dockerfile" ]; then
+            echo "dockerfile_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "dockerfile_exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run Trivy vulnerability scanner
+        if: steps.check_dockerfile.outputs.dockerfile_exists == 'true'
         uses: aquasecurity/trivy-action@0.30.0 # PINNED VERSION
         with:
           image-ref: 'wordpress-gmail-cli:scan'
@@ -66,10 +77,11 @@ jobs:
 
       # Upload results to GitHub Security tab
       - name: Upload Trivy scan results
-        if: github.event_name != 'pull_request' # Optional: Upload only on main/schedule?
+        if: steps.check_dockerfile.outputs.dockerfile_exists == 'true' && (success() || failure())
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
+          category: 'trivy'
 
   codeql-analysis:
     name: CodeQL Analysis (SAST)

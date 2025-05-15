@@ -1,4 +1,4 @@
-FROM php:8.4-cli-alpine3.19
+FROM php:8.4-cli-alpine3.19@sha256:347efd00e57c7953b4b30f9b4784313dbec5f245ce62d3adb92e68f76be70944
 
 # Install dependencies with specific versions to fix security vulnerabilities
 RUN apk add --no-cache \
@@ -39,9 +39,9 @@ RUN chmod +x /app/bin/*.sh && \
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
-# Add healthcheck
+# Add healthcheck - updated for PHP 8.4 compatibility
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-  CMD sh -c "/app/bin/wordpress-gmail-cli.sh --help > /dev/null || exit 1"
+  CMD sh -c "PHP_VERSION=$(php -v | head -n 1) && echo $PHP_VERSION | grep -q 'PHP 8.4' && /app/bin/wordpress-gmail-cli.sh --help > /dev/null || exit 1"
 
 # Set up entrypoint
 ENTRYPOINT ["/app/bin/wordpress-gmail-cli.sh"]
