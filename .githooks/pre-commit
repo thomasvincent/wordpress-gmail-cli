@@ -17,120 +17,118 @@ errors=0
 php_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(php)$')
 
 if [ -n "$php_files" ]; then
-    echo -e "${YELLOW}Checking PHP files...${NC}"
-    
-    # 1. Check for missing newlines at end of file
-    for file in $php_files; do
-        if [ -f "$file" ]; then
-            # Check for newline at end of file
-            if [ "$(tail -c1 "$file" | xxd -p)" != "0a" ]; then
-                echo -e "${RED}Error: Missing newline at end of file: $file${NC}"
-                echo "" >> "$file"
-                git add "$file"
-                echo -e "${GREEN}Fixed: Added newline to $file${NC}"
-            fi
+  echo -e "${YELLOW}Checking PHP files...${NC}"
 
-            # Check for syntax errors
-            php -l "$file" > /dev/null 2>&1
-            if [ $? -ne 0 ]; then
-                echo -e "${RED}Error: PHP syntax error in $file${NC}"
-                php -l "$file"
-                errors=$((errors+1))
-            fi
-        fi
-    done
+  # 1. Check for missing newlines at end of file
+  for file in $php_files; do
+    if [ -f "$file" ]; then
+      # Check for newline at end of file
+      if [ "$(tail -c1 "$file" | xxd -p)" != "0a" ]; then
+        echo -e "${RED}Error: Missing newline at end of file: $file${NC}"
+        echo "" >>"$file"
+        git add "$file"
+        echo -e "${GREEN}Fixed: Added newline to $file${NC}"
+      fi
 
-    # Run PHP_CodeSniffer if installed
-    if [ -f "vendor/bin/phpcs" ]; then
-        echo -e "${YELLOW}Running PHP_CodeSniffer...${NC}"
-        vendor/bin/phpcs --standard=PSR12 $php_files
-        if [ $? -ne 0 ]; then
-            echo -e "${RED}PHP_CodeSniffer found issues${NC}"
-            echo -e "${YELLOW}Auto-fixing PSR-12 issues where possible...${NC}"
-            
-            # Try to auto-fix PSR-12 issues if phpcbf is available
-            if [ -f "vendor/bin/phpcbf" ]; then
-                vendor/bin/phpcbf --standard=PSR12 $php_files
-                # Add the fixed files back to staging
-                git add $php_files
-                echo -e "${GREEN}Auto-fixed some PSR-12 issues and re-staged files${NC}"
-            else
-                # Increment error counter if we can't auto-fix
-                errors=$((errors+1))
-            fi
-        fi
+      # Check for syntax errors
+      if ! php -l "$file" >/dev/null 2>&1; then
+        echo -e "${RED}Error: PHP syntax error in $file${NC}"
+        php -l "$file"
+        errors=$((errors + 1))
+      fi
     fi
+  done
+
+  # Run PHP_CodeSniffer if installed
+  if [ -f "vendor/bin/phpcs" ]; then
+    echo -e "${YELLOW}Running PHP_CodeSniffer...${NC}"
+    vendor/bin/phpcs --standard=PSR12 "$php_files"
+    if ! vendor/bin/phpcs --standard=PSR12 "$php_files" >/dev/null 2>&1; then
+      echo -e "${RED}PHP_CodeSniffer found issues${NC}"
+      echo -e "${YELLOW}Auto-fixing PSR-12 issues where possible...${NC}"
+
+      # Try to auto-fix PSR-12 issues if phpcbf is available
+      if [ -f "vendor/bin/phpcbf" ]; then
+        vendor/bin/phpcbf --standard=PSR12 "$php_files"
+        # Add the fixed files back to staging
+        git add "$php_files"
+        echo -e "${GREEN}Auto-fixed some PSR-12 issues and re-staged files${NC}"
+      else
+        # Increment error counter if we can't auto-fix
+        errors=$((errors + 1))
+      fi
+    fi
+  fi
 fi
 
 # Get list of staged YAML files (for GitHub Actions workflows)
 yaml_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(yml|yaml)$' | grep -E '\.github/workflows/')
 
 if [ -n "$yaml_files" ]; then
-    echo -e "${YELLOW}Checking GitHub Actions workflow files...${NC}"
-    
-    # Check for invalid language specifications in CodeQL configuration
-    for file in $yaml_files; do
-        if [ -f "$file" ]; then
-            # Look for CodeQL config with php language that should be javascript
-            grep -q "languages: [']*php[']*" "$file"
-            if [ $? -eq 0 ]; then
-                echo -e "${RED}Warning: Found potential CodeQL misconfiguration in $file${NC}"
-                echo -e "${YELLOW}CodeQL might be configured to use PHP instead of JavaScript.${NC}"
-                echo -e "${YELLOW}Consider changing to 'languages: javascript' for better language detection.${NC}"
-                errors=$((errors+1))
-            fi
-            
-            # Check for category parameter consistency
-            if grep -q "languages: [']*javascript[']*" "$file" && grep -q "category.*language:php" "$file"; then
-                echo -e "${RED}Error: Inconsistent language configuration in $file${NC}"
-                echo -e "${YELLOW}CodeQL is configured for JavaScript but category parameter uses PHP.${NC}"
-                errors=$((errors+1))
-            fi
-        fi
-    done
-    
-    # Run yamllint if available
-    if command -v yamllint > /dev/null; then
-        echo -e "${YELLOW}Running yamllint...${NC}"
-        yamllint -c .yamllint $yaml_files 2>/dev/null || true
+  echo -e "${YELLOW}Checking GitHub Actions workflow files...${NC}"
+
+  # Check for invalid language specifications in CodeQL configuration
+  for file in $yaml_files; do
+    if [ -f "$file" ]; then
+      # Look for CodeQL config with php language that should be javascript
+      if grep -q "languages: [']*php[']*" "$file"; then
+        echo -e "${RED}Warning: Found potential CodeQL misconfiguration in $file${NC}"
+        echo -e "${YELLOW}CodeQL might be configured to use PHP instead of JavaScript.${NC}"
+        echo -e "${YELLOW}Consider changing to 'languages: javascript' for better language detection.${NC}"
+        errors=$((errors + 1))
+      fi
+
+      # Check for category parameter consistency
+      if grep -q "languages: [']*javascript[']*" "$file" && grep -q "category.*language:php" "$file"; then
+        echo -e "${RED}Error: Inconsistent language configuration in $file${NC}"
+        echo -e "${YELLOW}CodeQL is configured for JavaScript but category parameter uses PHP.${NC}"
+        errors=$((errors + 1))
+      fi
     fi
+  done
+
+  # Run yamllint if available
+  if command -v yamllint >/dev/null; then
+    echo -e "${YELLOW}Running yamllint...${NC}"
+    yamllint -c .yamllint "$yaml_files" 2>/dev/null || true
+  fi
 fi
 
 # Get list of staged shell scripts
 sh_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(sh)$')
 
 if [ -n "$sh_files" ]; then
-    echo -e "${YELLOW}Checking shell scripts...${NC}"
-    
-    # Check for shellcheck if available
-    if command -v shellcheck > /dev/null; then
-        shellcheck $sh_files
-        if [ $? -ne 0 ]; then
-            echo -e "${RED}shellcheck found issues${NC}"
-            errors=$((errors+1))
-        fi
-    else
-        echo -e "${YELLOW}shellcheck not found, skipping shell script validation${NC}"
+  echo -e "${YELLOW}Checking shell scripts...${NC}"
+
+  # Check for shellcheck if available
+  if command -v shellcheck >/dev/null; then
+    shellcheck "$sh_files"
+    if ! shellcheck "$sh_files"; then
+      echo -e "${RED}shellcheck found issues${NC}"
+      errors=$((errors + 1))
     fi
-    
-    # Ensure scripts are executable
-    for file in $sh_files; do
-        if [ -f "$file" ]; then
-            if [ ! -x "$file" ]; then
-                chmod +x "$file"
-                git add "$file"
-                echo -e "${GREEN}Made $file executable${NC}"
-            fi
-        fi
-    done
+  else
+    echo -e "${YELLOW}shellcheck not found, skipping shell script validation${NC}"
+  fi
+
+  # Ensure scripts are executable
+  for file in $sh_files; do
+    if [ -f "$file" ]; then
+      if [ ! -x "$file" ]; then
+        chmod +x "$file"
+        git add "$file"
+        echo -e "${GREEN}Made $file executable${NC}"
+      fi
+    fi
+  done
 fi
 
 # Final evaluation
 if [ $errors -gt 0 ]; then
-    echo -e "${RED}Found $errors issues that need to be fixed before committing.${NC}"
-    echo -e "${YELLOW}Some issues were auto-fixed. Review and commit again.${NC}"
-    exit 1
+  echo -e "${RED}Found $errors issues that need to be fixed before committing.${NC}"
+  echo -e "${YELLOW}Some issues were auto-fixed. Review and commit again.${NC}"
+  exit 1
 else
-    echo -e "${GREEN}All pre-commit checks passed!${NC}"
-    exit 0
+  echo -e "${GREEN}All pre-commit checks passed!${NC}"
+  exit 0
 fi

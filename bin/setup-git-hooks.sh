@@ -12,14 +12,14 @@ echo -e "${YELLOW}Setting up Git hooks for WordPress Gmail CLI...${NC}"
 
 # Check if we're in the right directory by looking for key files
 if [ ! -d ".git" ] || [ ! -d "bin" ]; then
-    echo -e "${RED}Error: This script must be run from the root of the wordpress-gmail-cli repository.${NC}"
-    exit 1
+  echo -e "${RED}Error: This script must be run from the root of the wordpress-gmail-cli repository.${NC}"
+  exit 1
 fi
 
 # Create the .githooks directory if it doesn't exist
 if [ ! -d ".githooks" ]; then
-    mkdir -p .githooks
-    echo -e "${GREEN}Created .githooks directory${NC}"
+  mkdir -p .githooks
+  echo -e "${GREEN}Created .githooks directory${NC}"
 fi
 
 # Configure git to use the custom hooks directory
@@ -33,10 +33,10 @@ echo -e "${GREEN}Made all hooks executable${NC}"
 # Verify the installation
 echo -e "${YELLOW}Verifying hooks installation...${NC}"
 if [ "$(git config core.hooksPath)" == ".githooks" ]; then
-    echo -e "${GREEN}Git hooks successfully installed!${NC}"
+  echo -e "${GREEN}Git hooks successfully installed!${NC}"
 else
-    echo -e "${RED}Something went wrong. Git hooks are not properly configured.${NC}"
-    exit 1
+  echo -e "${RED}Something went wrong. Git hooks are not properly configured.${NC}"
+  exit 1
 fi
 
 echo ""
