@@ -103,14 +103,17 @@ jobs:
           coverage: none
           tools: none
 
+      # Skip CodeQL for PHP as it's not well supported
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: 'php'
+          languages: 'javascript'
           config-file: ./.github/codeql/codeql-config.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
 
   secret-scan:
     name: Secret Scanning (TruffleHog)
