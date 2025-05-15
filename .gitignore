@@ -53,6 +53,10 @@ wp-config.php
 
 # PHP specific
 composer.phar
+.php-cs-fixer.cache
+.php_cs.cache
+.phpdoc/
+phpdoc-cache-*
 
 # PHPUnit
 .phpunit.cache/
@@ -95,3 +99,18 @@ coverage/
 *.bak
 *.save
 commit-message.txt
+
+# Node modules (if using JavaScript tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.npm/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Development specific
+/dev/
+/local-config.php
