@@ -1,4 +1,4 @@
-# Wordpress - ignore core, configuration, examples, uploads and logs.
+# WordPress - ignore core, configuration, examples, uploads and logs.
 # https://github.com/github/gitignore/blob/main/WordPress.gitignore
 
 # Core
@@ -48,5 +48,50 @@ wp-config.php
 # uncomment the next line
 #/wp-content/themes
 
+# Composer dependencies
+/vendor/
+
+# PHP specific
+composer.phar
+
+# PHPUnit
+.phpunit.cache/
+.phpunit.result.cache
+phpunit.xml
+coverage/
+
+# macOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# IDE files
+/.idea/
+/.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+.buildpath
+.project
+.settings/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
 # Temporary files
+/tmp/
+*.tmp
+*.bak
+*.save
 commit-message.txt
