@@ -52,7 +52,7 @@ jobs:
         run: composer validate --strict
 
       - name: Run PHPUnit tests
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml || true  # Make tests non-blocking temporarily
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
@@ -91,7 +91,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPCS
-        run: vendor/bin/phpcs --standard=WordPress src/ tests/ --extensions=php --report=summary || true  # Make standards non-blocking temporarily
+        run: vendor/bin/phpcs --standard=WordPress src/ tests/ --extensions=php --report=summary
 
   static-analysis:
     name: Static Analysis
@@ -124,7 +124,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse src/ tests/ --level=5 --no-progress || true  # Make static analysis non-blocking temporarily
+        run: vendor/bin/phpstan analyse src/ tests/ --level=5 --no-progress
 
   php-compatibility:
     name: PHP Compatibility
@@ -147,5 +147,5 @@ jobs:
           composer require --dev phpcompatibility/php-compatibility
 
       - name: Check PHP Compatibility
-        run: vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 8.1-8.4 --extensions=php src/ || true  # Make compatibility check non-blocking temporarily
+        run: vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 8.1-8.4 --extensions=php src/
 
