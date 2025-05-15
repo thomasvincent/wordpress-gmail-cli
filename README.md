@@ -283,4 +283,4 @@ For enterprise environments, additional enhancements are available in the `enter
 - LDAP authentication for admin interface
 - RESTful API for email status and management
 
-To implement these enterprise features, refer to the code samples and instructions in `enterprise-enhancements.md` or use the `bin/enterprise-setup.sh` script with appropriate options.
+To implement these enterprise features, refer to the code samples and instructions in `enterprise-enhancements.md` or use the `bin/enterprise-setup.sh` script with appropriate options.# Trigger CI
