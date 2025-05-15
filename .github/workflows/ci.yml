@@ -30,7 +30,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.4'
           extensions: mbstring, xml, zip, intl, json, curl
           tools: phpcs, phpstan, php-cs-fixer
           coverage: none
@@ -106,8 +106,8 @@ jobs:
       actions: read
     strategy:
       matrix:
-        php-version: ['8.1', '8.2']
-      # Limiting to PHP 8.1+ as current dependencies require PHP 8.1 or higher
+        php-version: ['8.1', '8.2', '8.3', '8.4']
+      # Testing all currently supported PHP versions (8.1, 8.2, 8.3, 8.4)
       fail-fast: false
     steps:
       - name: Checkout code
