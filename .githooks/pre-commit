@@ -42,9 +42,10 @@ if [ -n "$php_files" ]; then
   # Run PHP_CodeSniffer if installed
   if [ -f "vendor/bin/phpcs" ]; then
     echo -e "${YELLOW}Running PHP_CodeSniffer...${NC}"
-    vendor/bin/phpcs --standard=PSR12 "$php_files"
-    if ! vendor/bin/phpcs --standard=PSR12 "$php_files" >/dev/null 2>&1; then
+    phpcs_output=$(vendor/bin/phpcs --standard=PSR12 "$php_files")
+    if [ $? -ne 0 ]; then
       echo -e "${RED}PHP_CodeSniffer found issues${NC}"
+      echo "$phpcs_output"
       echo -e "${YELLOW}Auto-fixing PSR-12 issues where possible...${NC}"
 
       # Try to auto-fix PSR-12 issues if phpcbf is available
