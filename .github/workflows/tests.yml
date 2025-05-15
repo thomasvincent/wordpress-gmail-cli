@@ -147,5 +147,5 @@ jobs:
           composer require --dev phpcompatibility/php-compatibility
 
       - name: Check PHP Compatibility
-        run: vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 8.1-8.4 --extensions=php src/ || true  # Make compatibility check non-blocking temporarily
+        run: vendor/bin/phpcs --standard=PHPCompatibility --runtime-set testVersion 8.1-8.4 --extensions=php src/
 
