@@ -252,6 +252,8 @@ The pre-commit hooks automatically check for:
 - CodeQL configuration problems in GitHub Actions workflows
 - Shell script executable permissions (auto-fixed)
 
+This helps identify issues before they're committed, ensuring higher code quality and preventing CI failures.
+
 #### Continuous Integration
 
 - Automated linting and testing for shell scripts and PHP files
