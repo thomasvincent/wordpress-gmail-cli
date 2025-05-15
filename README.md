@@ -233,7 +233,26 @@ docker-compose exec cli ./bin/wordpress-gmail-cli.sh --help
 
 This project uses GitHub Actions for CI/CD and implements several security best practices:
 
-### Continuous Integration
+### Development Workflow
+
+#### Git Hooks
+
+This project includes pre-commit hooks to catch common issues before they make it to GitHub:
+
+```bash
+# Set up Git hooks after cloning the repository
+./bin/setup-git-hooks.sh
+```
+
+The pre-commit hooks automatically check for:
+
+- Missing newlines at the end of PHP files (auto-fixed)
+- PHP syntax errors
+- PSR-12 compliance issues (with auto-fix where possible)
+- CodeQL configuration problems in GitHub Actions workflows
+- Shell script executable permissions (auto-fixed)
+
+#### Continuous Integration
 
 - Automated linting and testing for shell scripts and PHP files
 - Security scanning with ShellCheck, Trivy, and CodeQL

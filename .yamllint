@@ -1,0 +1,33 @@
+---
+# Custom YAML linting configuration for WordPress Gmail CLI
+extends: default
+
+rules:
+  # Line length is relaxed for workflow files
+  line-length:
+    max: 120
+    level: warning
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+  
+  # Allow some flexibility with spacing in documents
+  document-start: disable
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
+  comments-indentation: enable
+  
+  # Be strict with GitHub Actions workflows
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+  
+  # Other rules to catch common issues
+  empty-lines:
+    max: 2
+    max-start: 0
+    max-end: 1
+  
+  # Ensure key consistency
+  key-duplicates: enable
+  key-ordering: disable
