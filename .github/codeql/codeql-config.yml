@@ -9,9 +9,6 @@ queries:
   - uses: security-and-quality
   # Add standard security-extended queries for more comprehensive analysis
   - uses: security-extended
-  # Add custom queries for PHP-specific security issues
-  - name: PHP Security Queries
-    uses: ./.github/codeql/security-queries/php
 
 # Define paths to exclude from analysis
 paths-ignore:
@@ -38,27 +35,21 @@ paths:
 
 # Language-specific configuration
 languages:
-  # PHP configuration
-  - name: php
-    # Specify patterns for test files (used by some metrics/queries)
-    test-patterns:
-      - '**/*Test.php'
+  # JavaScript configuration
+  - name: javascript
     # Configure indexing (fine-tune source file discovery)
     index:
-      # Explicitly include all .php files (usually default, but can be specific)
+      # Explicitly include all .js files
       include:
-        - '**/*.php'
-      # Explicitly exclude vendor/tests (already covered by paths-ignore, but good practice)
+        - '**/*.js'
+        - '**/*.jsx'
+        - '**/*.ts'
+        - '**/*.tsx'
+      # Explicitly exclude vendor/tests
       exclude:
         - '**/vendor/**'
+        - '**/node_modules/**'
         - '**/tests/**'
-    # Configure extraction
-    extraction:
-      # Specify PHP version (should match version in Setup PHP step)
-      php:
-        version: '8.2'
-        # Include standard PHP libraries for better analysis
-        standard_library: true
 
 # Database configuration
 database:
